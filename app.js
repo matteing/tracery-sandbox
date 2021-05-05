@@ -1,5 +1,5 @@
 let sentences = [];
-function generate() {
+function generateSentence() {
   var data = {
     start: ["#Desc# #N# #Vtrans# the #Adj# #N2#."],
     Det: ["The", "This", "That"],
@@ -44,13 +44,33 @@ function generate() {
 
   sentences.push(expansion);
 
-  printSentences(sentences);
+  print(sentences);
 }
 
-function printSentences(sentences) {
-  let textBox = document.getElementById("sentences");
+let phones = [];
+function generatePhones() {
+  var data = {
+    start: [
+      "#FirstName# #LastName# (#AreaCode#) #Digit##Digit##Digit#-#Digit##Digit##Digit##Digit#",
+    ],
+    AreaCode: ["787", "939"],
+    FirstName: ["Jesus", "Juan", "Juana", "Quique", "Sergio"],
+    LastName: ["Rodriguez", "Torres", "Mattei", "Ramirez"],
+    Digit: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+  };
+
+  let grammar = tracery.createGrammar(data);
+  let expansion = grammar.flatten("#start#");
+
+  sentences.push(expansion);
+
+  print(sentences, "phones");
+}
+
+function print(values, id = "sentences") {
+  let textBox = document.getElementById(id);
   textBox.innerHTML = "";
-  for (let i = sentences.length - 1; i >= 0; i--) {
-    textBox.innerHTML += "<p>" + sentences[i] + "</p>";
+  for (let i = values.length - 1; i >= 0; i--) {
+    textBox.innerHTML += "<p>" + values[i] + "</p>";
   }
 }
